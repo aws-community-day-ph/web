@@ -208,21 +208,18 @@
       </div>
 
       <!-- Right Panel -->
-      <div class="flex-1 bg-white">
+      <div class="bg-white flex-1 flex justify-center items-center">
         <!-- Content in the right panel -->
-        <h3 v-show="DisplayPanel">Hello</h3>
-        <div
-          class="h-screen flex flex-col items-center justify-center opacity-[.85]"
-        >
-          <img
+      <div class="flex flex-col items-center opacity-80">
+        <img
             src="@/assets/icons/default-aws.svg"
             alt="AWS Photobooth Logo"
             class="w-[478px] h-[239px]"
           />
-          <p class="bg-[#FEBD69] p-3 px-8 rounded-3xl mt-5 text-[#232F3E]">
+        <p class="bg-[#FEBD69] p-3 px-8 rounded-3xl mt-5 text-[#232F3E]">
             Please select a request to proceed
-          </p>
-        </div>
+        </p>
+      </div>
       </div>
     </div>
   </div>
@@ -301,3 +298,9 @@ export default {
   height: 560px;
 }
 </style>
+
+<!-- <div
+          class="flex flex-col items-center justify-center"
+        >
+          
+          -->
