@@ -10,6 +10,9 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      aws: ["Inter", "sans-serif"],
+    }
   },
   plugins: [
     require('flowbite/plugin')

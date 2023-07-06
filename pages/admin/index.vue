@@ -79,10 +79,14 @@
                           <input
                             id="default-radio-4"
                             type="radio"
-                            value=""
+                            :value="'Pending'"
                             name="default-radio"
-                            class="w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A]dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                          />
+                            :checked="selectedOption === 'Pending'"
+                            :class="{
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A] dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500': selectedOption === 'Pending',
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300': selectedOption !== 'Pending'
+                              }"
+                            />
                           <label
                             for="default-radio-4"
                             class="w-full ml-2 text-sm font-medium"
@@ -95,13 +99,17 @@
                           @click="filterRequests('Completed')"
                           class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                          <input
-                            id="default-radio-5"
+                        <input
+                            id="default-radio-4"
                             type="radio"
-                            value=""
+                            :value="'Completed'"
                             name="default-radio"
-                            class="w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A]dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                          />
+                            :checked="selectedOption === 'Completed'"
+                            :class="{
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A] dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500': selectedOption === 'Completed',
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300': selectedOption !== 'Completed'
+                              }"
+                            />
                           <label
                             for="default-radio-5"
                             class="w-full ml-2 text-sm font-medium"
@@ -114,13 +122,17 @@
                           @click="filterRequests('Cancelled')"
                           class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                          <input
-                            id="default-radio-6"
+                        <input
+                            id="default-radio-4"
                             type="radio"
-                            value=""
+                            :value="'Cancelled'"
                             name="default-radio"
-                            class="w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A]dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                          />
+                            :checked="selectedOption === 'Cancelled'"
+                            :class="{
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A] dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500': selectedOption === 'Cancelled',
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300': selectedOption !== 'Cancelled'
+                              }"
+                            />
                           <label
                             for="default-radio-6"
                             class="w-full ml-2 text-sm font-medium"
@@ -133,13 +145,17 @@
                           @click="filterRequests('All')"
                           class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                          <input
-                            id="default-radio-7"
+                        <input
+                            id="default-radio-4"
                             type="radio"
-                            value=""
+                            :value="'All'"
                             name="default-radio"
-                            class="w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A]dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                          />
+                            :checked="selectedOption === 'All'"
+                            :class="{
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A] dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500': selectedOption === 'All',
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300': selectedOption !== 'All'
+                              }"
+                            />
                           <label
                             for="default-radio-7"
                             class="w-full ml-2 text-sm font-medium"
@@ -234,7 +250,6 @@ export default {
       allRequests: [],
       filteredRequests: [],
       selectedRequestID: null,
-      DisplayPanel: false,
     };
   },
   computed: {
