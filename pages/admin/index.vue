@@ -313,9 +313,3 @@ export default {
   height: 560px;
 }
 </style>
-
-<!-- <div
-          class="flex flex-col items-center justify-center"
-        >
-          
-          -->
