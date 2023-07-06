@@ -1,4 +1,4 @@
-<template>
+h<template>
   <div class="flex flex-col h-screen font-aws">
     <!-- Topbar -->
     <div class="bg-[#37475A] py-2 px-4 h-12">
@@ -189,6 +189,7 @@
             >
               <!-- Holder for each request -->
               <button
+                @click="DisplayPanel = !DisplayPanel"
                 class="bg-white w-[320px] h-[65px] rounded-2xl flex justify-start items-center hover:bg-[#FEBD69] focus:bg-[#FEBD69] duration-500"
               >
                 <div className="grid grid-cols-5 grid-rows-1 gap-2">
@@ -232,7 +233,7 @@
       </div>
 
       <!-- Right Panel -->
-      <div class="bg-white flex-1 flex justify-center items-center">
+      <div v-if="!DisplayPanel" class="bg-white flex-1 flex justify-center items-center">
         <!-- Content in the right panel -->
         <div class="flex flex-col items-center opacity-80">
           <img
@@ -243,6 +244,50 @@
           <p class="bg-[#FEBD69] p-3 px-8 rounded-3xl mt-5 text-[#232F3E]">
             Please select a request to proceed
           </p>
+        </div>
+      </div>
+
+      <!-- Display Panel -->
+      <div v-if="DisplayPanel" class="bg-white">
+        <div class="flex px-10 py-8 -mt--5 -mb-10">
+
+          <!-- Upper Part-->
+          <div class="flex px">
+              <img
+                src="@/assets/icons/envelope.svg"
+                class="w-[27px] h-[20.6px]"
+              />
+              <h3 class="font-semibold text-slate text-xl">Emails</h3>
+          </div>
+
+          <div class="flex flex-col items-end"> 
+            <button
+              @click="DeleteRequest"
+              class="bg-[#146eb4] w-[175px] h-[36px] rounded-2xl flex justify-start items-center hover:bg-[#264873] focus:bg-[#146eb4] duration-500"
+            >
+              <div Classname="">
+                  <div>
+                    <img
+                      src="@/assets/icons/trash.svg"
+                      class="w-7 h-7 justify-start"
+                    />
+                  </div>
+                  <div class="flex justify-center">
+                    <h2 class="font-semibold text-white">Delete Request</h2>
+                  </div>
+              </div>
+            </button>
+
+            <!-- Emails -->
+            <div class="justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1060" height="126" viewBox="0 0 1060 126" fill="none">
+                <path d="M0 7C0 3.13401 3.13401 0 7 0H1053C1056.87 0 1060 3.13401 1060 7V119C1060 122.866 1056.87 126 1053 126H7C3.13401 126 0 122.866 0 119V7Z" fill="#37475A"/>
+              </svg>
+            </div>
+
+            <!-- Image -->
+
+          </div> 
         </div>
       </div>
     </div>
@@ -259,6 +304,7 @@ export default {
       filteredRequests: [],
       selectedRequestID: null,
       DisplayPanel: false,
+      DeleteRequest: false,
     };
   },
   computed: {
