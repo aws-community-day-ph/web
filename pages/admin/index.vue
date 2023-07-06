@@ -79,9 +79,15 @@
                           <input
                             id="default-radio-4"
                             type="radio"
-                            value=""
+                            :value="'Pending'"
                             name="default-radio"
-                            class="w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A]dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                            :checked="selectedOption === 'Pending'"
+                            :class="{
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A] dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500':
+                                selectedOption === 'Pending',
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300':
+                                selectedOption !== 'Pending',
+                            }"
                           />
                           <label
                             for="default-radio-4"
@@ -96,11 +102,17 @@
                           class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                           <input
-                            id="default-radio-5"
+                            id="default-radio-4"
                             type="radio"
-                            value=""
+                            :value="'Completed'"
                             name="default-radio"
-                            class="w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A]dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                            :checked="selectedOption === 'Completed'"
+                            :class="{
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A] dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500':
+                                selectedOption === 'Completed',
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300':
+                                selectedOption !== 'Completed',
+                            }"
                           />
                           <label
                             for="default-radio-5"
@@ -115,11 +127,17 @@
                           class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                           <input
-                            id="default-radio-6"
+                            id="default-radio-4"
                             type="radio"
-                            value=""
+                            :value="'Cancelled'"
                             name="default-radio"
-                            class="w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A]dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                            :checked="selectedOption === 'Cancelled'"
+                            :class="{
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A] dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500':
+                                selectedOption === 'Cancelled',
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300':
+                                selectedOption !== 'Cancelled',
+                            }"
                           />
                           <label
                             for="default-radio-6"
@@ -134,11 +152,17 @@
                           class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                           <input
-                            id="default-radio-7"
+                            id="default-radio-4"
                             type="radio"
-                            value=""
+                            :value="'All'"
                             name="default-radio"
-                            class="w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A]dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                            :checked="selectedOption === 'All'"
+                            :class="{
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A] dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500':
+                                selectedOption === 'All',
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300':
+                                selectedOption !== 'All',
+                            }"
                           />
                           <label
                             for="default-radio-7"
@@ -208,12 +232,9 @@
       </div>
 
       <!-- Right Panel -->
-      <div class="flex-1 bg-white">
+      <div class="bg-white flex-1 flex justify-center items-center">
         <!-- Content in the right panel -->
-        <h3 v-show="DisplayPanel">Hello</h3>
-        <div
-          class="h-screen flex flex-col items-center justify-center opacity-[.85]"
-        >
+        <div class="flex flex-col items-center opacity-80">
           <img
             src="@/assets/icons/default-aws.svg"
             alt="AWS Photobooth Logo"
