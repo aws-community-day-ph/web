@@ -189,8 +189,12 @@ h<template>
             >
               <!-- Holder for each request -->
               <button
-                @click="DisplayPanel = !DisplayPanel"
-                class="bg-white w-[320px] h-[65px] rounded-2xl flex justify-start items-center hover:bg-[#FEBD69] focus:bg-[#FEBD69] duration-500"
+                @click="toggleEmails(requestID, index)"
+                :class="{
+                  'bg-white': activeRequestID !== request.id,
+                  'bg-[#FEBD69]': activeRequestID === request.id,
+                  'w-[320px] h-[65px] rounded-2xl flex justify-start items-center hover:bg-[#FEBD69] focus:bg-[#FEBD69] duration-500': true
+                }"
               >
                 <div className="grid grid-cols-5 grid-rows-1 gap-2">
                   <div>
@@ -233,7 +237,7 @@ h<template>
       </div>
 
       <!-- Right Panel -->
-      <div v-if="!DisplayPanel" class="bg-white flex-1 flex justify-center items-center">
+      <div v-if="selectedRequestID === null && !DisplayPanel" class="bg-white flex-1 flex justify-center items-center">
         <!-- Content in the right panel -->
         <div class="flex flex-col items-center opacity-80">
           <img
@@ -248,36 +252,52 @@ h<template>
       </div>
 
       <!-- Display Panel -->
-      <div v-if="DisplayPanel" class="bg-white flex px-10 py-10 -mt--5 -mb-10">
-          <!-- Email-->
-          <div class="flex flex-row">
-              <img
+      <div v-if="selectedRequestID" class="flex flex-col flex-1">
+        <!--Email and Delete Button Container-->
+        <div class="grid grid-cols-12 w-full h-20 items-center">
+          <div class="col-start-1 col-span-3">
+            <div class="ml-10">
+              <h3 class="flex font-bold text-slate text-xl drop-shadow-2xl">
+                <img
                 src="@/assets/icons/envelope.svg"
                 class="w-[35px] h-[28.6px] px-1 drop-shadow-lg"
-              />
-              <h3 class="font-bold text-slate text-xl drop-shadow-2xl">Emails</h3>
+                />
+                Emails
+              </h3>
+            </div>
           </div>
-
-          <!-- Delete Request-->
-          <div className="grid grid-cols-10 grid-rows-5 gap-4"> 
-            <div className="col-start-9">
-            <button
+          <div class="col-start-10 col-span-3">
+            <div class="ml-16">
+              <button
               @click="DeleteRequest"
-              class="bg-[#146eb4] w-[175px] h-[36px] rounded-2xl text-white items-end hover:bg-[#264873] focus:bg-[#146eb4] duration-500"
-            > Delete Request
-              <div>
-                  <div>
-                    <img
-                      src="@/assets/icons/trash.svg"
-                      class="w-0 h-0"
-                    />
-                  </div>
-                </div>
+              class="bg-[#146eb4] w-[175px] h-[36px] rounded-lg text-white flex items-center hover:bg-[#264873] focus:bg-[#146eb4] duration-500 mr-1"
+            > 
+            <img
+              src="@/assets/icons/trash.svg"
+              class="pr-1 pl-2"
+              />
+              Delete Request
             </button>
             </div>
           </div>
-          <!-- Emails -->
-          <!-- Image -->
+        </div> 
+
+        <!--Email Container-->
+        <div class="flex justify-center">
+          <div class="w-[1050px] h-[120px] flex flex-nowrap justify-center bg-[#37475A] rounded-lg py-2">
+            <div class="text-black email-container overflow-x-scroll whitespace-nowrap inline-flex">
+              <div v-if="selectedRequestID" class="flex justify-center items-center">
+                <div v-for="(email, index) in getEmails(selectedRequestID)" :key="email" class=" items-center mx-2">
+                <div class="w-[322px] h-[57px] rounded-lg bg-white flex justify-center items-center">
+                  
+                  <div class="text-white text-lg flex justify-center items-center w-[37px] h-[36px] bg-[#146EB4] rounded-full">{{ index + 1 }}</div>
+                  <div class="pl-3">{{ email }}</div>
+                </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        </div>
       </div>
     </div>
   </div>
@@ -292,7 +312,8 @@ export default {
       allRequests: [],
       filteredRequests: [],
       selectedRequestID: null,
-      DisplayPanel: false,
+      selectedRequestIndex: -1,
+      activeRequestID: null,
       DeleteRequest: false,
     };
   },
@@ -322,13 +343,26 @@ export default {
       console.log("Filtered Requests:", this.filteredRequests);
       console.log("Pending Requests Count:", this.pendingRequestsCount);
     },
-    toggleEmails(requestID) {
-      if (this.selectedRequestID === requestID) {
+    toggleEmails(requestID, index) {
+      if (this.activeRequestID === requestID) {
         this.selectedRequestID = null;
+        this.selectedRequestIndex = -1;
+        this.DisplayPanel = false;
       } else {
         this.selectedRequestID = requestID;
+        this.DisplayPanel = true;
+        this.selectedRequestIndex = index;
+        console.log("Emails for Request", requestID, ":", emails);
+      
       }
     },
+    getEmails(requestID){
+      const selectedRequest = this.allRequests.find(request => request.id === requestID);
+      if(selectedRequest){
+        return selectedRequest.emails || [];
+      }
+      return [];
+    }
   },
   async created() {
     try {
@@ -345,15 +379,14 @@ export default {
 </script>
 
 <style>
-.content {
-  /* Define height and width for the scrollable content area */
-  height: 400px;
-  width: 300px;
-  overflow: scroll;
-}
 
 .container {
   /* Define height for the scrollable container */
   height: 560px;
+}
+
+.email-container{
+  /* Define width for the scrollable email container */
+  width: 1000px;
 }
 </style>
