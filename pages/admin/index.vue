@@ -248,47 +248,36 @@ h<template>
       </div>
 
       <!-- Display Panel -->
-      <div v-if="DisplayPanel" class="bg-white">
-        <div class="flex px-10 py-8 -mt--5 -mb-10">
-
-          <!-- Upper Part-->
-          <div class="flex px">
+      <div v-if="DisplayPanel" class="bg-white flex px-10 py-10 -mt--5 -mb-10">
+          <!-- Email-->
+          <div class="flex flex-row">
               <img
                 src="@/assets/icons/envelope.svg"
-                class="w-[27px] h-[20.6px]"
+                class="w-[35px] h-[28.6px] px-1 drop-shadow-lg"
               />
-              <h3 class="font-semibold text-slate text-xl">Emails</h3>
+              <h3 class="font-bold text-slate text-xl drop-shadow-2xl">Emails</h3>
           </div>
 
-          <div class="flex flex-col items-end"> 
+          <!-- Delete Request-->
+          <div className="grid grid-cols-10 grid-rows-5 gap-4"> 
+            <div className="col-start-9">
             <button
               @click="DeleteRequest"
-              class="bg-[#146eb4] w-[175px] h-[36px] rounded-2xl flex justify-start items-center hover:bg-[#264873] focus:bg-[#146eb4] duration-500"
-            >
-              <div Classname="">
+              class="bg-[#146eb4] w-[175px] h-[36px] rounded-2xl text-white items-end hover:bg-[#264873] focus:bg-[#146eb4] duration-500"
+            > Delete Request
+              <div>
                   <div>
                     <img
                       src="@/assets/icons/trash.svg"
-                      class="w-7 h-7 justify-start"
+                      class="w-0 h-0"
                     />
                   </div>
-                  <div class="flex justify-center">
-                    <h2 class="font-semibold text-white">Delete Request</h2>
-                  </div>
-              </div>
+                </div>
             </button>
-
-            <!-- Emails -->
-            <div class="justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="1060" height="126" viewBox="0 0 1060 126" fill="none">
-                <path d="M0 7C0 3.13401 3.13401 0 7 0H1053C1056.87 0 1060 3.13401 1060 7V119C1060 122.866 1056.87 126 1053 126H7C3.13401 126 0 122.866 0 119V7Z" fill="#37475A"/>
-              </svg>
             </div>
-
-            <!-- Image -->
-
-          </div> 
-        </div>
+          </div>
+          <!-- Emails -->
+          <!-- Image -->
       </div>
     </div>
   </div>
