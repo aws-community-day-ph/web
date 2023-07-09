@@ -47,13 +47,10 @@ export default {
         return;
       }
 
-      // Get the entered emails
       const emails = this.emails.map(email => email.value);
 
-      // Encode the emails
       const encodedEmails = encodeURIComponent(emails.join(','));
 
-      // Navigate to the review page with the encoded emails as a query parameter
       this.$router.push({ path: '/review', query: { emails: encodedEmails } });
     }
   }

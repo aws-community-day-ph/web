@@ -14,7 +14,7 @@
           <p class="text-center mb-4">Please take a moment to verify the email addresses you have entered to ensure their accuracy and validity.</p>
           <div class="text-center mb-4">
             <div v-for="(email, index) in editedEmails" :key="index" class="w-full mb-4">
-              <input v-model="editedEmails[index].value" class="w-full px-3 py-2 focus:outline-none rounded-full" type="text">
+              <input v-if="email.value.trim() !== ''" v-model="editedEmails[index].value" class="w-full px-3 py-2 focus:outline-none rounded-full" type="text">
             </div>
           </div>
 
@@ -49,20 +49,26 @@ export default {
   created() {
     const encodedEmails = this.$route.query.emails || '';
     const decodedEmails = decodeURIComponent(encodedEmails).split(',');
-    this.editedEmails = decodedEmails.map(email => ({ value: email })); // Initialize editedEmails with the original email addresses
+    this.editedEmails = decodedEmails.map(email => ({ value: email.trim() })); 
   },
   methods: {
     submitEmails() {
+      this.editedEmails = this.editedEmails.filter(email => email.value.trim() !== '');
+      if (this.editedEmails.length === 0) {
+        return;
+      }
+
       // Perform email submission logic here (e.g., send emails to server)
 
-      // Simulating a response with a queue number
-      this.queueNumber = Math.floor(Math.random() * 100) + 1;
+
+      this.queueNumber++;
       this.submitted = true;
     },
     newRequest() {
       this.submitted = false;
       this.editedEmails = this.editedEmails.map(emailObj => ({ value: emailObj.value }));
-      this.$router.push('/'); // Navigate to the index page
+      this.queueNumber++;
+      this.$router.push('/');
     }
   }
 };
