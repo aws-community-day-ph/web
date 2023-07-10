@@ -83,10 +83,12 @@
                             name="default-radio"
                             :checked="selectedOption === 'Pending'"
                             :class="{
-                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A] dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500': selectedOption === 'Pending',
-                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300': selectedOption !== 'Pending'
-                              }"
-                            />
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A] dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500':
+                                selectedOption === 'Pending',
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300':
+                                selectedOption !== 'Pending',
+                            }"
+                          />
                           <label
                             for="default-radio-4"
                             class="w-full ml-2 text-sm font-medium"
@@ -99,17 +101,19 @@
                           @click="filterRequests('Completed')"
                           class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                        <input
+                          <input
                             id="default-radio-4"
                             type="radio"
                             :value="'Completed'"
                             name="default-radio"
                             :checked="selectedOption === 'Completed'"
                             :class="{
-                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A] dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500': selectedOption === 'Completed',
-                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300': selectedOption !== 'Completed'
-                              }"
-                            />
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A] dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500':
+                                selectedOption === 'Completed',
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300':
+                                selectedOption !== 'Completed',
+                            }"
+                          />
                           <label
                             for="default-radio-5"
                             class="w-full ml-2 text-sm font-medium"
@@ -122,17 +126,19 @@
                           @click="filterRequests('Cancelled')"
                           class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                        <input
+                          <input
                             id="default-radio-4"
                             type="radio"
                             :value="'Cancelled'"
                             name="default-radio"
                             :checked="selectedOption === 'Cancelled'"
                             :class="{
-                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A] dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500': selectedOption === 'Cancelled',
-                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300': selectedOption !== 'Cancelled'
-                              }"
-                            />
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A] dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500':
+                                selectedOption === 'Cancelled',
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300':
+                                selectedOption !== 'Cancelled',
+                            }"
+                          />
                           <label
                             for="default-radio-6"
                             class="w-full ml-2 text-sm font-medium"
@@ -145,17 +151,19 @@
                           @click="filterRequests('All')"
                           class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                         >
-                        <input
+                          <input
                             id="default-radio-4"
                             type="radio"
                             :value="'All'"
                             name="default-radio"
                             :checked="selectedOption === 'All'"
                             :class="{
-                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A] dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500': selectedOption === 'All',
-                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300': selectedOption !== 'All'
-                              }"
-                            />
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300 focus:ring-[#37475A] dark:focus:ring-[blue-600] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500':
+                                selectedOption === 'All',
+                              'w-4 h-4 text-[#37475A] bg-gray-100 border-gray-300':
+                                selectedOption !== 'All',
+                            }"
+                          />
                           <label
                             for="default-radio-7"
                             class="w-full ml-2 text-sm font-medium"
@@ -181,7 +189,12 @@
             >
               <!-- Holder for each request -->
               <button
-                class="bg-white w-[320px] h-[65px] rounded-2xl flex justify-start items-center hover:bg-[#FEBD69] focus:bg-[#FEBD69] duration-500"
+                @click="toggleEmails(requestID, index)"
+                :class="{
+                  'bg-white': activeRequestID !== request.id,
+                  'bg-[#FEBD69]': activeRequestID === request.id,
+                  'w-[320px] h-[65px] rounded-2xl flex justify-start items-center hover:bg-[#FEBD69] focus:bg-[#FEBD69] duration-500': true
+                }"
               >
                 <div className="grid grid-cols-5 grid-rows-1 gap-2">
                   <div>
@@ -224,18 +237,97 @@
       </div>
 
       <!-- Right Panel -->
-      <div class="bg-white flex-1 flex justify-center items-center">
+      <div v-if="selectedRequestID === null && !DisplayPanel" class="bg-white flex-1 flex justify-center items-center">
         <!-- Content in the right panel -->
-      <div class="flex flex-col items-center opacity-80">
-        <img
+        <div class="flex flex-col items-center opacity-80">
+          <img
             src="@/assets/icons/default-aws.svg"
             alt="AWS Photobooth Logo"
             class="w-[478px] h-[239px]"
           />
-        <p class="bg-[#FEBD69] p-3 px-8 rounded-3xl mt-5 text-[#232F3E]">
+          <p class="bg-[#FEBD69] p-3 px-8 rounded-3xl mt-5 text-[#232F3E]">
             Please select a request to proceed
-        </p>
+          </p>
+        </div>
       </div>
+
+      <!-- Display Panel -->
+      <div v-if="selectedRequestID" class="bg-[#F7F8FA] flex flex-col flex-1">
+        <!--Email and Delete Button Container-->
+        <div class="grid grid-cols-12 w-full h-20 items-center">
+          <div class="col-start-1 col-span-3">
+            <div class="ml-10">
+              <h3 class="flex font-bold text-slate text-xl drop-shadow-2xl">
+                <img
+                src="@/assets/icons/envelope.svg"
+                class="w-[35px] h-[28.6px] px-1 drop-shadow-lg"
+                />
+                Emails
+              </h3>
+            </div>
+          </div>
+          <div class="col-start-10 col-span-3">
+            <div class="ml-16">
+              <button
+              @click="DeleteRequest"
+              class="bg-[#146eb4] w-[175px] h-[36px] rounded-lg text-white flex items-center hover:bg-[#264873] focus:bg-[#146eb4] duration-500 mr-1"
+            > 
+            <img
+              src="@/assets/icons/trash.svg"
+              class="mr-3 pl-2 w-8"
+              />
+              Delete Request
+            </button>
+            </div>
+          </div>
+        </div> 
+
+        <!--Email Container-->
+        <div class="flex justify-center -mt-4">
+          <div class="w-[1050px] h-[80px] flex flex-nowrap justify-center bg-[#37475A] rounded-lg py-1">
+            <div class="text-black email-container overflow-x-scroll whitespace-nowrap inline-flex">
+              <div v-if="selectedRequestID" class="flex justify-center items-center">
+                <div v-for="(email, index) in getEmails(selectedRequestID)" :key="email" class=" items-center mx-2">
+                <div class="w-[322px] h-[40px] rounded-lg bg-white flex justify-center items-center">
+                  <div class="text-white text-md flex justify-center items-center w-[32px] h-[30px] bg-[#146EB4] rounded-full">{{ index + 1 }}</div>
+                  <div class="pl-3">{{ email }}</div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="bg-[#FFF] flex justify-center mx-10 my-4 rounded-xl shadow-2xl">
+          <div class="w-[1050px] h-[500px] flex flex-col items-center justify-center">
+
+            <!-- Card -->
+            <div class="bg-[#37475A] w-[700px] h-[380px] flex flex-col justify-center items-center rounded-lg shadow-2xl mt-14">
+              <top class="flex self-start m-4">
+                <h3 class="font-bold text-white">Upload your image:</h3>
+              </top>
+              
+              <!-- Drag and Drop Area -->
+              <div class="bg-white w-[600px] h-[300px] self-center m-4 rounded-lg flex flex-col justify-center items-center border-dashed border-4" >
+               <img src="@/assets/icons/image.svg" alt="upload logo" />
+               <h3 class="font-semibold text-lg text-[#232F3E] mt-2 text-center">Drag & Drop <br/> or</h3>
+               <input
+                  ref="fileInput"  
+                  type="file"
+                  style="display: none;"  
+                  :value ="images"
+                  multiple
+                  @change="handleFileUpload"  
+                />
+               <button @click="selectImages" class="bg-[#146EB4] text-white px-4 py-1 mt-4 rounded-lg">Browse File</button>
+              </div>
+            </div>
+
+            <!-- Upload Button -->
+            <button @click="handleUploadButton" class="w-[126px] h-[48px] bg-[#FEBD69] text-[#232F3E] font-semibold mt-8 mb-8 rounded-lg shadow-xl">UPLOAD</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -250,6 +342,11 @@ export default {
       allRequests: [],
       filteredRequests: [],
       selectedRequestID: null,
+      selectedRequestIndex: -1,
+      activeRequestID: null,
+      DeleteRequest: false,
+      images: [],
+      // isDragging: false, add this if we want to have dragging option
     };
   },
   computed: {
@@ -278,13 +375,46 @@ export default {
       console.log("Filtered Requests:", this.filteredRequests);
       console.log("Pending Requests Count:", this.pendingRequestsCount);
     },
-    toggleEmails(requestID) {
-      if (this.selectedRequestID === requestID) {
+    toggleEmails(requestID, index) {
+      if (this.activeRequestID === requestID) {
         this.selectedRequestID = null;
+        this.selectedRequestIndex = -1;
+        this.DisplayPanel = false;
       } else {
         this.selectedRequestID = requestID;
+        this.DisplayPanel = true;
+        this.selectedRequestIndex = index;
+        console.log("Emails for Request", requestID, ":", emails);
+      
       }
     },
+    getEmails(requestID){
+      const selectedRequest = this.allRequests.find(request => request.id === requestID);
+      if(selectedRequest){
+        return selectedRequest.emails || [];
+      }
+      return [];
+    },
+    selectImages(){
+      this.$refs.fileInput.click();
+    },
+    handleFileUpload(e) {
+      const files = e.target.files;
+      const allowedFormats = ['image/jpeg', 'image/png', 'image/raw']; // Add more formats if needed
+
+      this.images = [];
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+
+        this.images.push(file);
+      }
+
+    },
+
+    handleUploadButton(){
+      console.log("Uploaded Files: ", this.images);
+    }
   },
   async created() {
     try {
@@ -301,15 +431,14 @@ export default {
 </script>
 
 <style>
-.content {
-  /* Define height and width for the scrollable content area */
-  height: 400px;
-  width: 300px;
-  overflow: scroll;
-}
 
 .container {
   /* Define height for the scrollable container */
   height: 560px;
+}
+
+.email-container{
+  /* Define width for the scrollable email container */
+  width: 1000px;
 }
 </style>
