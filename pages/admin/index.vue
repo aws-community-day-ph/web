@@ -296,8 +296,9 @@ h<template>
                 </div>
               </div>
             </div>
+          </div>
         </div>
-        </div>
+
         <!-- Upload container-->
         <div class="flex justify-center">
           <div class="w-[1030px] h-[470px] flex flex-col items-center justify-center bg-[white] rounded-lg py-2 mt-6 drop-shadow-xl">
@@ -322,20 +323,34 @@ h<template>
               </div>
             </div>
             <button
-                @click="Upload"
-                class="bg-[#FEBD69] w-[145px] h-[46px] text-xl font-semibold rounded-lg text-black flex items-center justify-center hover:bg-[#FF9900] focus:bg-[#FEBD69] duration-500 mt-8"
+                @click="uploadPhoto"
+                class="bg-[#FEBD69] w-[145px] h-[46px] text-xl font-semibold rounded-lg text-black flex items-center justify-center hover:bg-[#FF9900] focus:bg-[#FEBD69] duration-300 mt-8 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110"
                 >
                 UPLOAD
                 </button>
+                <upload-popup 
+                  :show="showPopup"
+                  :processing="isProcessing"
+                  :success="isSuccess"
+                  :error="isError"
+                  @close="closeUploadPopup"
+                ></upload-popup>
           </div> 
         </div>
-      </div>
-    </div>
+      </div> 
+    </div>      
   </div>
 </template>
 
 <script>
+
+import UploadPopup from './UploadPopup.vue';
+
 export default {
+  components: {
+    UploadPopup
+  },
+
   data() {
     return {
       isDropdownOpen: false,
@@ -346,8 +361,11 @@ export default {
       selectedRequestIndex: -1,
       activeRequestID: null,
       DeleteRequest: false,
-      BrowseFile: [], //no code 
-      Upload: [], //no code
+      BrowseFile: [], //no code
+      showPopup: false,
+      processing: false, 
+      success: false,
+      error: false,
     };
   },
   computed: {
@@ -356,6 +374,15 @@ export default {
         (request) => request.status.toLowerCase() === "pending"
       ).length;
     },
+    isProcessing() {
+      return this.showPopup && this.processing;
+    },
+    isSuccess() {
+      return this.showPopup && this.success;
+    },
+    isError() {
+      return this.showPopup && this.error;
+    }
   },
   methods: {
     toggleDropdown() {
@@ -395,8 +422,30 @@ export default {
         return selectedRequest.emails || [];
       }
       return [];
+    },
+    uploadPhoto() {
+      this.showPopup = true;
+      this.processing = true;
+
+      // Simulate the upload process
+      setTimeout(() => {
+        const isSuccess = Math.random() < 0.5; // Randomly determine if the upload is successful or not
+
+        this.processing = false;
+        this.success = isSuccess;
+        this.error = !isSuccess;
+
+        // Hide the popup after a certain time
+        setTimeout(() => {
+          this.showPopup = false;
+        }, 5000); // Adjust the duration as per your requirement (in milliseconds)
+      }, 4000); // Simulated upload time (adjust as per your requirement)
+    },
+    closeUploadPopup() {
+      this.showPopup = false;
     }
   },
+  
   async created() {
     try {
       const response = await fetch("../assets/sampledata.json");
@@ -408,7 +457,7 @@ export default {
       console.error("Failed to fetch data:", error);
     }
   },
-};
+}
 </script>
 
 <style>
