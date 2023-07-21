@@ -193,7 +193,7 @@ h<template>
                 :class="{
                   'bg-white': activeRequestID !== request.id,
                   'bg-[#FEBD69]': activeRequestID === request.id,
-                  'w-[320px] h-[65px] rounded-2xl flex justify-start items-center hover:bg-[#FEBD69] focus:bg-[#FEBD69] duration-500': true
+                  'w-[320px] h-[65px] rounded-2xl flex justify-start items-center hover:bg-[#FEBD69] focus:bg-[#FEBD69] duration-200 drop-shadow-md': true
                 }"
               >
                 <div className="grid grid-cols-5 grid-rows-1 gap-2">
@@ -360,12 +360,11 @@ export default {
       selectedRequestID: null,
       selectedRequestIndex: -1,
       activeRequestID: null,
-      DeleteRequest: false,
       BrowseFile: [], //no code
       showPopup: false,
-      processing: false, 
-      success: false,
-      error: false,
+      processing: false, //no methods
+      success: false, //no methods 
+      error: false, //no methods
     };
   },
   computed: {
@@ -427,23 +426,21 @@ export default {
       this.showPopup = true;
       this.processing = true;
 
-      // Simulate the upload process
-      setTimeout(() => {
-        const isSuccess = Math.random() < 0.5; // Randomly determine if the upload is successful or not
+      //Simulate the upload process
+      const isSuccess = false;
 
-        this.processing = false;
-        this.success = isSuccess;
-        this.error = !isSuccess;
-
-        // Hide the popup after a certain time
-        setTimeout(() => {
-          this.showPopup = false;
-        }, 5000); // Adjust the duration as per your requirement (in milliseconds)
-      }, 4000); // Simulated upload time (adjust as per your requirement)
+      this.processing = false;
+      this.success = isSuccess;
+      this.error = !isSuccess;
     },
+
     closeUploadPopup() {
-      this.showPopup = false;
-    }
+      this.showPopup = false; 
+    },
+    
+    DeleteRequest() {
+      this.selectedRequestID = false; //not sure how to make the background stay after deleting the request
+    },
   },
   
   async created() {
