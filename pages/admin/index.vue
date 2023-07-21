@@ -1,4 +1,5 @@
-h<template>
+h
+<template>
   <div class="flex flex-col h-screen font-aws">
     <!-- Topbar -->
     <div class="bg-[#37475A] py-2 px-4 h-12">
@@ -193,7 +194,7 @@ h<template>
                 :class="{
                   'bg-white': activeRequestID !== request.id,
                   'bg-[#FEBD69]': activeRequestID === request.id,
-                  'w-[320px] h-[65px] rounded-2xl flex justify-start items-center hover:bg-[#FEBD69] focus:bg-[#FEBD69] duration-500': true
+                  'w-[320px] h-[65px] rounded-2xl flex justify-start items-center hover:bg-[#FEBD69] focus:bg-[#FEBD69] duration-500': true,
                 }"
               >
                 <div className="grid grid-cols-5 grid-rows-1 gap-2">
@@ -237,7 +238,10 @@ h<template>
       </div>
 
       <!-- Right Panel -->
-      <div v-if="selectedRequestID === null && !DisplayPanel" class="bg-white flex-1 flex justify-center items-center">
+      <div
+        v-if="selectedRequestID === null && !DisplayPanel"
+        class="bg-white flex-1 flex justify-center items-center"
+      >
         <!-- Content in the right panel -->
         <div class="flex flex-col items-center opacity-80">
           <img
@@ -256,43 +260,58 @@ h<template>
         <!--Email and Delete Button Container-->
         <div class="grid grid-cols-12 w-full h-20 items-center">
           <div class="col-start-1 col-span-3">
-            <div class="ml-10">
-              <h3 class="flex font-bold text-slate text-xl drop-shadow-2xl">
-                <img
+            <div class="ml-10 flex items-center">
+              <img
                 src="@/assets/icons/envelope.svg"
-                class="w-[35px] h-[28.6px] px-1 drop-shadow-lg"
-                />
+                class="w-[32px] h-[20px] ml-7"
+              />
+              <h3
+                class="flex font-semibold text-slate text-xl drop-shadow-2xl text-[#232F3E] ml-2"
+              >
                 Emails
               </h3>
             </div>
           </div>
           <div class="col-start-10 col-span-3">
-            <div class="ml-16">
+            <div class="ml-16 -mt-1">
               <button
-              @click="DeleteRequest"
-              class="bg-[#146eb4] w-[175px] h-[36px] rounded-lg text-white flex items-center hover:bg-[#264873] focus:bg-[#146eb4] duration-500 mr-1"
-            > 
-            <img
-              src="@/assets/icons/trash.svg"
-              class="pr-1 pl-2"
-              />
-              Delete Request
-            </button>
+                @click="DeleteRequest"
+                class="bg-[#146eb4] w-[170px] h-[36px] rounded-lg text-white font-semibold flex hover:bg-[#264873] focus:bg-[#146eb4] duration-500 mr-1 justify-center items-center"
+              >
+                <img src="@/assets/icons/trash.svg" class="pr-1 mr-1" />
+                Delete Request
+              </button>
             </div>
           </div>
-        </div> 
+        </div>
 
         <!--Email Container-->
         <div class="flex justify-center">
-          <div class="w-[1050px] h-[120px] flex flex-nowrap justify-center bg-[#37475A] rounded-lg py-2">
-            <div class="text-black email-container overflow-x-scroll whitespace-nowrap inline-flex">
-              <div v-if="selectedRequestID" class="flex justify-center items-center">
-                <div v-for="(email, index) in getEmails(selectedRequestID)" :key="email" class=" items-center mx-2">
-                <div class="w-[322px] h-[57px] rounded-lg bg-white flex justify-center items-center">
-                  
-                  <div class="text-white text-lg flex justify-center items-center w-[37px] h-[36px] bg-[#146EB4] rounded-full">{{ index + 1 }}</div>
-                  <div class="pl-3">{{ email }}</div>
-                </div>
+          <div
+            class="w-[1050px] h-[120px] flex flex-nowrap justify-center bg-[#37475A] rounded-lg py-2 -mt-3"
+          >
+            <div
+              class="text-black email-container overflow-x-scroll whitespace-nowrap inline-flex"
+            >
+              <div
+                v-if="selectedRequestID"
+                class="flex justify-center items-center"
+              >
+                <div
+                  v-for="(email, index) in getEmails(selectedRequestID)"
+                  :key="email"
+                  class="items-center mx-2"
+                >
+                  <div
+                    class="w-[322px] h-[57px] rounded-lg bg-white flex justify-start items-center text-[#232F3E]"
+                  >
+                    <div
+                      class="text-white text-lg flex justify-center items-center w-[37px] h-[36px] bg-[#146EB4] rounded-full ml-5"
+                    >
+                      {{ index + 1 }}
+                    </div>
+                    <div class="pl-3">{{ email }}</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -301,54 +320,68 @@ h<template>
 
         <!-- Upload container-->
         <div class="flex justify-center">
-          <div class="w-[1030px] h-[470px] flex flex-col items-center justify-center bg-[white] rounded-lg py-2 mt-6 drop-shadow-xl">
-            <div class="w-[630px] h-[374px] flex flex-col bg-[#37475A] rounded-lg py-2 mt-1">
-              <h3 class="font-semibold text-white text-xl justify-normal ml-7 mt-4">Upload your image:   
+          <div
+            class="w-[1030px] h-[470px] flex flex-col items-center justify-center bg-[white] rounded-lg py-2 mt-6 drop-shadow-xl"
+          >
+            <div
+              class="w-[630px] h-[374px] flex flex-col bg-[#37475A] rounded-lg py-2 mt-1"
+            >
+              <h3
+                class="font-semibold text-white text-xl justify-normal ml-7 mt-4"
+              >
+                Upload your image:
               </h3>
-              <div class="w-[590px] h-[280px] flex flex-col items-center justify-center bg-[white] py-1 mt-6 ml-5">
+              <div
+                class="w-[590px] h-[280px] flex flex-col items-center justify-center bg-[white] py-1 mt-6 ml-5"
+              >
                 <img
                   src="@/assets/icons/image.svg"
-                  class="w-[67px] h-[53px] px-1 drop-shadow-lgr"
+                  class="w-[67px] h-[53px] px-1 drop-shadow-lgr mb-2"
                 />
-                <h3 class="font-semibold text-[#37475A] text-xl items-center justify-center">Drag & Drop   
+                <h3
+                  class="font-semibold text-[#37475A] text-l items-center justify-center -mb-1"
+                >
+                  Drag & Drop
                 </h3>
-                <h3 class="font-semibold text-[#37475A] text-sm items-center justify-center">or   
+                <h3
+                  class="font-semibold text-[#37475A] text-sm items-center justify-center mb-3"
+                >
+                  or
                 </h3>
                 <button
-                @click="BrowseFile"
-                class="bg-[#146eb4] w-[135px] h-[36px] rounded-lg text-white flex items-center justify-center hover:bg-[#264873] focus:bg-[#146eb4] duration-500"
+                  @click="BrowseFile"
+                  class="bg-[#146eb4] w-[134px] h-[36px] rounded-lg text-white font-semibold flex items-center justify-center hover:bg-[#264873] focus:bg-[#146eb4] duration-500"
                 >
-                Browse File
+                  Browse File
                 </button>
               </div>
             </div>
             <button
-                @click="uploadPhoto"
-                class="bg-[#FEBD69] w-[145px] h-[46px] text-xl font-semibold rounded-lg text-black flex items-center justify-center hover:bg-[#FF9900] focus:bg-[#FEBD69] duration-300 mt-8 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110"
-                >
-                UPLOAD
-                </button>
-                <upload-popup 
-                  :show="showPopup"
-                  :processing="isProcessing"
-                  :success="isSuccess"
-                  :error="isError"
-                  @close="closeUploadPopup"
-                ></upload-popup>
-          </div> 
+              @click="uploadPhoto"
+              class="bg-[#FEBD69] w-[145px] h-[46px] text-lg font-semibold rounded-lg text-[#232F3E] flex items-center justify-center hover:bg-[#FF9900] focus:bg-[#FEBD69] duration-300 mt-8 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110"
+            >
+              UPLOAD
+            </button>
+            <upload-popup
+              :show="showPopup"
+              :processing="isProcessing"
+              :success="isSuccess"
+              :error="isError"
+              @close="closeUploadPopup"
+            ></upload-popup>
+          </div>
         </div>
-      </div> 
-    </div>      
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-
-import UploadPopup from './UploadPopup.vue';
+import UploadPopup from "./UploadPopup.vue";
 
 export default {
   components: {
-    UploadPopup
+    UploadPopup,
   },
 
   data() {
@@ -363,7 +396,7 @@ export default {
       DeleteRequest: false,
       BrowseFile: [], //no code
       showPopup: false,
-      processing: false, 
+      processing: false,
       success: false,
       error: false,
     };
@@ -382,7 +415,7 @@ export default {
     },
     isError() {
       return this.showPopup && this.error;
-    }
+    },
   },
   methods: {
     toggleDropdown() {
@@ -413,12 +446,13 @@ export default {
         this.DisplayPanel = true;
         this.selectedRequestIndex = index;
         console.log("Emails for Request", requestID, ":", emails);
-      
       }
     },
-    getEmails(requestID){
-      const selectedRequest = this.allRequests.find(request => request.id === requestID);
-      if(selectedRequest){
+    getEmails(requestID) {
+      const selectedRequest = this.allRequests.find(
+        (request) => request.id === requestID
+      );
+      if (selectedRequest) {
         return selectedRequest.emails || [];
       }
       return [];
@@ -443,9 +477,9 @@ export default {
     },
     closeUploadPopup() {
       this.showPopup = false;
-    }
+    },
   },
-  
+
   async created() {
     try {
       const response = await fetch("../assets/sampledata.json");
@@ -457,17 +491,16 @@ export default {
       console.error("Failed to fetch data:", error);
     }
   },
-}
+};
 </script>
 
 <style>
-
 .container {
   /* Define height for the scrollable container */
   height: 560px;
 }
 
-.email-container{
+.email-container {
   /* Define width for the scrollable email container */
   width: 1000px;
 }
