@@ -9,7 +9,7 @@
       <!-- Right column container -->
       <div class="w-full lg:w-1/2 flex flex-col justify-center px-8 py-8">
         <!-- Sign in section -->
-        <h2 class="text-3xl mb-4 text-center font-bold">Register</h2>
+        <h2 class="text-4xl mb-4 text-center font-bold text-[#232F3E]"><span class="text-shadow">Register</span></h2>
         <p class="text-center mb-4">Welcome to AWS Community Day 2023 Photo Booth!</p>
         <form @submit.prevent="validateForm">
           <div v-for="(email, index) in emails" :key="index" class="email-container">
@@ -62,6 +62,10 @@ html,
 body {
   margin: 0;
   padding: 0;
+}
+
+.text-shadow {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .object-cover {
