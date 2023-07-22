@@ -176,7 +176,8 @@ h
                   </div>
                 </div>
               </div>
-            </requests-wrapper>
+            </requests-wrapper> 
+            <!-- End Tag -->
           </div>
         </div>
         <!-- Scrollable Requests -->

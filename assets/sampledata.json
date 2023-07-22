@@ -17,7 +17,8 @@
         "email12@example.com",
         "email13@example.com"
       ],
-      "status": "pending"
+      "status": "pending",
+      "img_path": "sample"
     },
     {
       "id": 2,
