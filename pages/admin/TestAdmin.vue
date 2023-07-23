@@ -1,99 +1,161 @@
 <template>
- <div class="flex flex-col h-screen font-aws">
-  <Logo />
-
-  <div class="flex-1 flex">
-    <div class="w-[350px] bg-[#37475A]">
-
-      <div class="grid grid-rows">
-        <div class="flex flex-col justify-center px-4 py-8 -mt--2 -mb-10">
-          <Queue />
-          <RequestContainer />
-        </div>
+    <div class="flex flex-col h-screen font-aws">
+      <!--Top Bar-->
+      <div class="bg-[#37475A] py-2 px-4 h-12">
+        <img src="../../assets/icons/topbar-icon-real.svg" alt="AWS Logo" class="w-[84px] h-[54px]" />
       </div>
+  
+      <div class="flex flex-1">
+        <!--Left Panel-->
+        <div class="w-[350px] bg-[#37475A] -ml-1">
+        <div class="px-2 pt-4">
+          <div class="grid grid-rows">
+            <div class="flex flex-col justify-center px-4 items-center ">
+                
+              <!--Pending Requests Counter-->
+              <pending-requests-counter :pendingRequestsCount="pendingRequestsCounter"></pending-requests-counter>
+
+              <!--Filter-->
+              <div class="flex gap-32 my-4">
+                  <h3 class="font-semibold text-white text-xl">Request</h3>
+                  <filter-dropdown
+                  v-model="selectedOption"
+                  @input = "updateSelectedOption"
+                  ></filter-dropdown>
+                </div>
+            </div>
+          </div>
+
+          <!--Scrollable Container-->
+          <ReqScrollContainer
+          :filteredRequests="filteredRequests" :selectedRequestID="selectedRequestID" @request-clicked="handleRequestClicked"></ReqScrollContainer>
+        </div>
     </div>
 
-    <div
-        v-if="selectedRequestID === null && !DisplayPanel"
-        class="bg-white flex-1 flex justify-center items-center"
-      >
-        <!-- Content in the right panel -->
-        <div class="flex flex-col items-center opacity-80">
-          <img
-            src="@/assets/icons/default-aws.svg"
-            alt="AWS Photobooth Logo"
-            class="w-[478px] h-[239px]"
-          />
-          <p class="bg-[#FEBD69] p-3 px-8 rounded-3xl mt-5 text-[#232F3E]">
-            Please select a request to proceed
-          </p>
+    <!--Right Panel-->
+    <div v-if="selectedRequestID === null && !DisplayPanel" class="flex-1 flex justify-center">
+        <DefaultPanel />
+    </div>
+
+    <div v-if="selectedRequestID" class="flex flex-col flex-1 items-center">
+        <TopContainer />
+        <div class="self-start ml-12">
+          <Status :status="getStatusForSelectedRequest"></Status>
         </div>
-      </div>
+        <EmailList :selectedRequestID="selectedRequestID" :emails="getEmailsForRequest(selectedRequestID)"></EmailList>
+        <BrowseUpload />
+    </div>
+</div>
+</div>
+  </template>
+  
+  <script>
+  import PendingRequestsCounter from '@/components/adminpage/LeftPanel/QueueCounter';
 
-      <div class="flex flex-col flex-1">
-      <!-- <div v-if="selectedRequestID" class="flex flex-col flex-1"> -->
-        <!--Email and Delete Button Container-->
-        <TopContainer />  
+  import FilterDropdown from '@/components/adminpage/LeftPanel/FilterDropdown'
 
-        <!--Email Container-->
-        <EmailContainer />
+  import ScrollableContainer from '@/components/adminpage/LeftPanel/ReqScrollContainer'
 
-        <!-- Upload container-->
-        <MainContainer />
-      </div>
+  import EmailList from '@/components/adminpage/RightPanel/EmailList'
 
-    
+  import DeleteRequest from '@/components/adminpage/RightPanel/DeleteRequest'
 
-  </div>
- </div>
+  import Status from '@/components/adminpage/RightPanel/Status'
 
-
-</template>
-
-<script>
+  import BrowseUpload from '@/components/adminpage/RightPanel/BrowseAndUpload'
+  
   export default {
+  components: {
+    PendingRequestsCounter,
+    FilterDropdown,
+    ScrollableContainer,
+    EmailList,
+    DeleteRequest,
+    Status,
+    BrowseUpload
+  },
 
-    data(){
-      return {
-        isDropdownOpen: false,
-        selectedOption: "All",
-        allRequests: [],
-        filteredRequests: [],
+  data() {
+    return {
+      allRequests: [],
+      selectedRequestID: null,
+      selectedRequestIndex: -1,
+      selectedOption: 'All',
+    };
+  },
+
+  computed: {
+    filteredRequests() {
+      if (typeof this.selectedOption !== 'string'){
+        return [];
       }
-    },
 
-    methods: {
-      toggleDropdown() {
-      this.isDropdownOpen = !this.isDropdownOpen;
-      console.log("Dropdown toggled:", this.isDropdownOpen);
-    },
-    filterRequests(option) {
-      this.selectedOption = option;
-
-      if (option === "All") {
-        this.filteredRequests = this.allRequests;
+      if (this.selectedOption === 'All') {
+        console.log('All requests:', this.allRequests);
+        return this.allRequests;
       } else {
-        this.filteredRequests = this.allRequests.filter(
-          (request) => request.status.toLowerCase() === option.toLowerCase()
+        const filteredRequests = this.allRequests.filter(
+          (request) => request.status.toLowerCase() === this.selectedOption.toLowerCase()
         );
+        console.log(`Requests with "${this.selectedOption}" status:`, filteredRequests);
+        return filteredRequests;
       }
-
-      console.log("Filtered Requests:", this.filteredRequests);
-      console.log("Pending Requests Count:", this.pendingRequestsCount);
-    },
     },
 
-    async created(){
-      try {
-      const response = await fetch("../assets/sampledata.json");
+    pendingRequestsCounter() {
+      return this.allRequests.filter((request) => request.status.toLowerCase() === 'pending').length;
+    },
+
+    getStatusForSelectedRequest(){
+      if(this.selectedRequestID !== null){
+        const selectedRequest = this.allRequests.find((request)=> request.id === this.selectedRequestID);
+        return selectedRequest ? selectedRequest.status : '';
+      }
+      return '';
+    },
+  },
+
+  async created() {
+    try {
+      const response = await fetch('../api/sampledata.json');
       const data = await response.json();
       this.allRequests = data.data;
-      this.filteredRequests = data.data;
-      console.log("Data fetched:", this.allRequests);
+      console.log('Main request data fetched:', this.allRequests);
+      
+      const pendingRequests = this.allRequests.filter((request) => request.status.toLowerCase() === 'pending');
+      console.log('Requests with "pending" status:', pendingRequests);
     } catch (error) {
-      console.error("Failed to fetch data:", error);
+      console.error('Failed to fetch main request data:', error);
     }
-    }
-    
-  }
-</script>
+  },
+
+  methods: {
+    updateSelectedOption(option) {
+        this.selectedOption = option;
+        console.log("Selected option: ", this.selectedOption);
+    },
+
+    handleRequestClicked(requestID, index) {
+      if(this.selectedRequestID === requestID) {
+        this.selectedRequestID = null;
+        this.selectedRequestIndex = -1;
+        this.DisplayPanel = false;
+      }
+      else{
+        this.selectedRequestID = requestID;
+        this.DisplayPanel = true;
+        this.selectedRequestIndex = index;
+        console.log("Emails for Request ID", requestID, ":", this.getEmailsForRequest(requestID));
+      }
+    },
+
+    getEmailsForRequest(requestID) {
+      const selectedRequest = this.allRequests.find((request) =>  request.id === requestID);
+      if (selectedRequest) {
+        return selectedRequest.emails || [];
+      }
+      return [];
+    },
+  },
+};
+  </script>

@@ -1,5 +1,4 @@
 <template>
-          <div class="col-start-10 col-span-3">
             <div class="ml-16 -mt-1">
               <button
                 @click="DeleteRequest"
@@ -9,11 +8,17 @@
                 Delete Request
               </button>
             </div>
-          </div>
 </template>
 
 <script>
-  export default {
-    
-  }
+    export default {
+
+      methods: {
+        DeleteRequest(){
+          this.request.status = 'cancelled';
+          // No code yet
+        }
+      }
+        
+    }
 </script>

@@ -1,4 +1,4 @@
-h
+
 <template>
   <div class="flex flex-col h-screen font-aws">
     <!-- Topbar -->
@@ -12,15 +12,15 @@ h
 
     <div class="flex-1 flex">
       <!-- Left Panel -->
-      <div class="w-[350px] bg-[#37475A]">
+      <div class="w-[350px] bg-[rgb(55,71,90)]">
         <div class="grid grid-rows">
           <div class="flex flex-col justify-center px-4 py-8 -mt--2 -mb-10">
             <!-- Queue Counter Tab -->
             <queue-tab
               class="bg-white w-[317px] h-[50px] rounded-lg flex flex-row justify-start items-center shadow-2xl"
             >
-              <queue-container
-                class="flex justify-row justify-start items-center"
+              <div
+                class="flex justify-start items-center"
               >
                 <img
                   src="@/assets/icons/user-fill.svg"
@@ -30,7 +30,7 @@ h
                 <queue-number class="font-semibold text-[#37475A]">{{
                   pendingRequestsCount
                 }}</queue-number>
-              </queue-container>
+              </div>
             </queue-tab>
 
             <!-- Requests Container -->
@@ -239,12 +239,12 @@ h
       </div>
 
       <!-- Right Panel -->
-      <div
+      <!-- <div
         v-if="selectedRequestID === null && !DisplayPanel"
         class="bg-white flex-1 flex justify-center items-center"
-      >
+      > -->
         <!-- Content in the right panel -->
-        <div class="flex flex-col items-center opacity-80">
+        <!-- <div class="flex flex-col items-center opacity-80">
           <img
             src="@/assets/icons/default-aws.svg"
             alt="AWS Photobooth Logo"
@@ -254,10 +254,10 @@ h
             Please select a request to proceed
           </p>
         </div>
-      </div>
+      </div> -->
 
       <!-- Display Panel -->
-      <div v-if="selectedRequestID" class="flex flex-col flex-1">
+      <div v-if="selectedRequestID === null && !DisplayPanel" class="flex flex-col flex-1">
         <!--Email and Delete Button Container-->
         <div class="grid grid-cols-12 w-full h-20 items-center">
           <div class="col-start-1 col-span-3">
