@@ -1,0 +1,33 @@
+<template>
+    <div class="mb-3.5 -mt-3 font-aws font-bold flex gap-2">
+        <h3 >Status: </h3>
+        <h3 class="uppercase" :style="getStatusColor">{{ status }}</h3>
+    </div>
+</template>
+
+<script>
+    export default {
+        props: {
+            status: {
+                type: String,
+                required: true,
+            },
+        },
+        mounted(){
+            console.log('Status prop: ', this.status);
+        },
+
+        computed: {
+            getStatusColor(){
+                switch(this.status){
+                    case 'completed':
+                        return {color: 'green'};
+                    case 'cancelled':
+                        return {color: 'red'};
+                    case 'pending':
+                        return {color: 'orange'};
+                }
+            }
+        }
+    }
+</script>
