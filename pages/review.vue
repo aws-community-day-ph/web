@@ -39,19 +39,25 @@
           <div class="mt-3 text-center">
             <button
               class="px-4 py-2 bg-orange-500 hover:bg-orange-300 text-white rounded-3xl shadow"
-              @click="submitEmails"
+              @click="submit"
             >
               Confirm
             </button>
+            <!-- <button
+              class="mx-2 px-4 py-2 bg-blue-900 hover:bg-blue-600  text-white rounded-3xl shadow"
+              @click="edit"
+            >
+              Edit
+            </button> -->
           </div>
         </div>
 
         <div v-else>
           <!-- Queue Section -->
-          <h2 class="text-3xl mb-4 text-center font-bold">
+          <!-- <h2 class="text-3xl mb-4 text-center font-bold">
             Your queue number is:
           </h2>
-          <h1 class="text-9xl mb-4 text-center font-bold">{{ queueNumber }}</h1>
+          <h1 class="text-9xl mb-4 text-center font-bold">{{ queueNumber }}</h1> -->
           <p class="text-center">
             Please wait patiently for your turn.<br />Thank you for your
             patience.
@@ -80,6 +86,8 @@ export default {
     },
   },
   setup(props) {
+    const { $toast, $api } = useNuxtApp();
+    const router = useRouter();
     const editedEmails = ref([]);
     const submitted = ref(false);
     const queueNumber = ref(0);
@@ -87,24 +95,31 @@ export default {
 
     console.log(savedEmails.value);
 
-    function submitEmails() {
+    async function submit() {
+      submitted.value = false;
       const payload = {
-        "emails": savedEmails.value,
-        "img_path": '',
-        "status": 'pending'
+        emails: savedEmails.value,
+        img_path: "",
+        status: "pending",
       };
 
-      console.log(payload);
-   
+      await $api.photobooth.create(payload).then((res) => {
+        submitted.value = true;
+        console.log(res.value);
+        $toast.success("Success", {
+          position: $toast.POSITION.TOP_CENTER,
+        });
+        reset()
+      });
+     
+    }
+    function reset() {
+     editedEmails.value = []
+     localStorage.removeItem("savedEmails")
     }
 
-    function newRequest() {
-      submitted.value = false;
-      editedEmails.value = editedEmails.value.map((emailObj) => ({
-        value: emailObj.value,
-      }));
-      queueNumber.value++;
-      router.push("/");
+    function newRequest(){
+      router.push("/")
     }
 
     // Return the data and methods you want to expose to the template
@@ -112,9 +127,10 @@ export default {
       editedEmails,
       submitted,
       queueNumber,
-      submitEmails,
+      submit,
       newRequest,
       savedEmails,
+    
     };
   },
 };

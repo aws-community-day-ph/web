@@ -64,8 +64,7 @@ import { ref } from 'vue';
 
 export default {
 
-  async setup() {
-    const { $api } = useNuxtApp();
+  setup() {
     const router = useRouter();
     const emails = ref([{ value: "" }]);
     const error = ref("");
@@ -73,10 +72,6 @@ export default {
     function addEmailField() {
       emails.value.push({ value: "" });
     }
-
-    await $api.photobooth.fetchRequets().then(res =>{
-        console.log(res)
-    })
 
     function validateForm() {
       const atLeastOneEmailFilled = emails.value.some(

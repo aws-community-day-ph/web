@@ -14,11 +14,11 @@ export default defineNuxtConfig({
   },
   css: [
     '@/assets/css/main.css',
+    "vue3-toastify/dist/index.css",
   ],
   runtimeConfig: {
     public: {
       // app_version: packageJSON.version,
-      api_base_url: process.env.API_URL,
       photobooth_api_url: process.env.PHOTOBOOTH_API_URL,
     
     }
