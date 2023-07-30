@@ -38,7 +38,7 @@ import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
 export default {
   setup() {
     const PHOTO_TEMPLATE_WIDTH = ref(1080);
-    const PHOTO_TEMPLATE_HEIGHT = ref(700);
+    const PHOTO_TEMPLATE_HEIGHT = ref(750);
     const UPLOADED_IMAGE_WIDTH = ref(840);
     const UPLOADED_IMAGE_HEIGHT = ref(575);
     const photoTemplateRef = ref(null);
@@ -143,7 +143,7 @@ export default {
 }
 
 .photo-template {
-  @apply relative flex items-center justify-center overflow-hidden mt-3;
+  @apply relative flex items-center justify-center overflow-hidden;
 }
 
 .upload-placeholder {
@@ -155,8 +155,9 @@ export default {
 }
 
 .uploaded-image-container {
-  @apply -mt-[81px];
-  @apply w-[867px] h-[589px];
+  @apply -mt-[110px];
+  @apply ml-[43px];
+  @apply w-[906px] h-[615px];
 }
 
 .uploaded-image {
