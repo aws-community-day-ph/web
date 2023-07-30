@@ -37,8 +37,8 @@ import * as htmlToImage from "html-to-image";
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
 export default {
   setup() {
-    const PHOTO_TEMPLATE_WIDTH = ref(1080);
-    const PHOTO_TEMPLATE_HEIGHT = ref(750);
+    const PHOTO_TEMPLATE_WIDTH = ref(1530);
+    const PHOTO_TEMPLATE_HEIGHT = ref(1024);
     const UPLOADED_IMAGE_WIDTH = ref(840);
     const UPLOADED_IMAGE_HEIGHT = ref(575);
     const photoTemplateRef = ref(null);
@@ -155,9 +155,8 @@ export default {
 }
 
 .uploaded-image-container {
-  @apply -mt-[110px];
-  @apply ml-[43px];
-  @apply w-[906px] h-[615px];
+  @apply -mt-[150px];
+  @apply w-[1230px] h-[835px];
 }
 
 .uploaded-image {
