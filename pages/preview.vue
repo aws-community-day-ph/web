@@ -109,7 +109,7 @@ export default {
         .then(function (dataUrl) {
           const link = document.createElement("a");
           link.href = dataUrl;
-          link.download = "my-node.png";
+          link.download = "templated_img.png";
           link.click();
         })
         .catch(function (error) {

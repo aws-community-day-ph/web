@@ -1,7 +1,7 @@
   <template>
     <div class="px-2">
       <div class="container overflow-y-auto h-[560px]">
-        <div v-for="request in filteredRequests" :key="request.requestId" class="flex justify-start py-2 px-3">
+        <div v-for="(request ,index) in filteredRequests" :key="request.requestId" class="flex justify-start py-2 px-3">
         <button
         @click="handleRequestClick(request.requestId, index)"
         :class="{
@@ -17,7 +17,7 @@
           <div class="col-span-2">
             <div class="px-2 ml-[-7px]">
               <h3 class="text-[#37475A] text-[15px] font-bold flex flex-row mt-0.5">
-                Request {{ request.requestId }}
+                Request {{ index + 1 }}
               </h3>
               <p class="text-[10px] text-[#37475A] -ml-9">
                 View form

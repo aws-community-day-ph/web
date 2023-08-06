@@ -58,7 +58,7 @@
         isDropdownOpen: false,
         options: [
           { id: "default-radio-4", value: "Pending", label: "Pending" },
-          { id: "default-radio-5", value: "Completed", label: "Completed" },
+          { id: "default-radio-5", value: "Sent", label: "Sent" },
           { id: "default-radio-6", value: "Cancelled", label: "Cancelled" },
           { id: "default-radio-7", value: "All", label: "All" },
         ],
@@ -76,5 +76,3 @@
     },
   };
   </script>
-
-
