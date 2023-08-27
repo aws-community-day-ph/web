@@ -64,7 +64,7 @@
   </div>
 </template>
   
-  <script>
+<script>
 import { ref, onMounted } from "vue";
 import PendingRequestsCounter from "@/components/adminpage/LeftPanel/QueueCounter";
 import FilterDropdown from "@/components/adminpage/LeftPanel/FilterDropdown";
