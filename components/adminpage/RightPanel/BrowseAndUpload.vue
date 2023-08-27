@@ -32,7 +32,7 @@
 import { ref } from 'vue';
 import { Amplify, Storage } from 'aws-amplify';
 import UploadPopup from "../RightPanel/UploadPopup.vue";
-import { awsConfig } from '../../../aws-exports.js'; 
+import { awsConfig } from '../../../src/aws-exports.js'; 
 
 Amplify.configure(awsConfig);
 
