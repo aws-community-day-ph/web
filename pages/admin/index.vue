@@ -1,28 +1,28 @@
 <template>
-  <div class="flex flex-col h-screen font-aws">
+  <div class="main">
     <!--Top Bar-->
-    <div class="bg-[#37475A] py-2 px-4 h-12">
+    <div class="top-bar">
       <img
         src="../../assets/icons/topbar-icon-real.svg"
         alt="AWS Logo"
-        class="w-[84px] h-[54px]"
+        class="aws-logo"
       />
     </div>
 
-    <div class="flex flex-1">
+    <div class="left-wrapper">
       <!--Left Panel-->
-      <div class="w-[350px] bg-[#37475A] -ml-1">
-        <div class="px-2 pt-4">
-          <div class="grid grid-rows">
-            <div class="flex flex-col justify-center px-4 items-center">
+      <div class="left-panel">
+        <div class="left-panel-top">
+          <div class="left-panel-container">
+            <div class="left-panel-content">
               <!--Pending Requests Counter-->
               <pending-requests-counter
                 :pendingRequestsCount="pendingRequestsCounter"
               ></pending-requests-counter>
 
               <!--Filter-->
-              <div class="flex gap-32 my-4">
-                <h3 class="font-semibold text-white text-xl">Request</h3>
+              <div class="filter-container">
+                <h3 class="filter-text">Request</h3>
                 <filter-dropdown
                   v-model="selectedOption"
                   @input="updateSelectedOption"
@@ -43,16 +43,16 @@
       <!--Right Panel-->
       <div
         v-if="selectedRequestID === null && !DisplayPanel"
-        class="flex-1 flex justify-center"
+        class="right-wrapper"
       >
         <DefaultPanel />
       </div>
 
-      <div v-if="selectedRequestID" class="flex flex-col flex-1 items-center">
+      <div v-if="selectedRequestID" class="req-container">
         <TopContainer />
-        <div class="self-start ml-[70px] mb-10">
+        <div class="get-status">
           <Status :status="getStatusForSelectedRequest"></Status>
-          <RequestID :requestID="selectedRequestID" class=" -mt-14">h3</RequestID>
+          <RequestID :requestID="selectedRequestID" class="req-id ">h3</RequestID>
         </div>
         <EmailList
           :selectedRequestID="selectedRequestID"
@@ -207,3 +207,61 @@ export default {
   },
 };
 </script>
+
+<style lang="postcss" scoped>
+  .main{
+    @apply flex flex-col h-screen font-aws
+  }
+
+  .top-bar{
+    @apply bg-[#37475A] py-2 px-4 h-12
+  }
+
+  .aws-logo{
+    @apply w-[84px] h-[54px]
+  }
+  
+  .left-wrapper{
+    @apply flex flex-1
+  }
+
+  .left-panel{
+    @apply w-[350px] bg-[#37475A] -ml-1
+  }
+
+  .left-panel-top{
+    @apply px-2 pt-4
+  }
+
+  .left-panel-container{
+    @apply grid grid-rows-1
+  }
+
+  .left-panel-content{
+    @apply flex flex-col justify-center px-4 items-center
+  }
+
+  .filter-container{
+    @apply flex gap-32 my-4
+  }
+
+  .filter-text{
+    @apply font-semibold text-white text-xl
+  }
+
+  .right-wrapper{
+    @apply flex-1 flex justify-center
+  }
+
+  .req-container{
+    @apply flex flex-col flex-1 items-center
+  }
+
+  .get-status{
+    @apply self-start ml-[70px] mb-10
+  }
+
+  .req-id{
+    @apply -mt-14
+  }
+</style>

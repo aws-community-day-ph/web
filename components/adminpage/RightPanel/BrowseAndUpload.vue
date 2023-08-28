@@ -99,7 +99,7 @@ const uploadMultiplePhotos = async () => {
 };
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 
   .upload-container{
     @apply w-[1030px] h-[430px] flex flex-col items-center justify-center bg-white rounded-lg py-2 mt-6 drop-shadow-xl

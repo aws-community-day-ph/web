@@ -1,12 +1,12 @@
 <template>
-    <div class="bg-white flex-1 flex justify-center items-center">
-        <div class="flex flex-col items-center opacity-80">
+    <div class="wrapper">
+        <div class="container">
             <img
             src="../../../assets/icons/default-aws.svg"
             alt="AWS Photobooth Logo"
-            class="w-[478px] h-[239px]"
+            class="logo"
           />
-          <p class="bg-[#FEBD69] p-3 px-8 rounded-3xl mt-5 text-[#232F3E]">Please select a request to proceed</p>
+          <p class="p1">Please select a request to proceed</p>
         </div>
     </div>
 </template>
@@ -16,3 +16,22 @@
         
     }
 </script>
+
+<style lang="postcss" scoped>
+
+    .wrapper{
+        @apply bg-white flex-1 flex justify-center items-center
+    }
+
+    .container{
+        @apply flex flex-col items-center opacity-80
+    }
+
+    .logo{
+        @apply w-[478px] h-[239px]
+    }
+
+    .p1{
+       @apply bg-[#FEBD69] p-3 px-8 rounded-3xl mt-5 text-[#232F3E]
+    }
+</style>    

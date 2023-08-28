@@ -165,6 +165,7 @@ export default {
 };
 </script>
 
-<style>
-/* Customize the pop-up styles as per your design */
+<style lang="postcss" scoped>
+
+  
 </style>

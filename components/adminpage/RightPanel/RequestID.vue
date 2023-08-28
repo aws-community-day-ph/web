@@ -1,5 +1,5 @@
 <template>
-    <div class="font-aws font-semibold flex gap-2">
+    <div class="reqID">
         <h3>Request ID: </h3>
         <h3>{{ requestID }}</h3>
     </div>
@@ -16,6 +16,11 @@
         mounted(){
             console.log('RequestID prop: ', this.requestID);
         }
-        
     }
 </script>
+
+<style lang="postcss" scoped>
+    .reqID{
+        @apply font-aws font-semibold flex gap-2
+    }
+</style>

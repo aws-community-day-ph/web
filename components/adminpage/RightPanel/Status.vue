@@ -1,7 +1,7 @@
 <template>
-    <div class="mb-3.5 -mt-3 font-aws font-bold flex gap-2">
+    <div class="wrapper">
         <h3 >Status: </h3>
-        <h3 class="uppercase" :style="getStatusColor">{{ status }}</h3>
+        <h3 class="statcolor" :style="getStatusColor">{{ status }}</h3>
     </div>
 </template>
 
@@ -31,3 +31,13 @@
         }
     }
 </script>
+
+<style lang="postcss" scoped>
+    .wrapper{
+        @apply mb-3.5 -mt-3 font-aws font-bold flex gap-2
+    }
+
+    .statcolor{
+        @apply uppercase 
+    }
+</style>
