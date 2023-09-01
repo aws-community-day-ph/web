@@ -46,7 +46,7 @@
           </div>
           <div class="mt-3 text-center">
             <button
-              class="px-4 py-2 bg-orange-500 hover:bg-orange-300 text-white rounded-3xl shadow"
+              class="submit-btn"
               type="submit"
             >
               Submit
@@ -101,13 +101,7 @@ export default {
 };
 </script>
 
-<style>
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
-
+<style lang="postcss" scoped>
 .text-shadow {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
 }
@@ -120,5 +114,9 @@ body {
   .flex-col {
     flex-direction: column !important;
   }
+}
+
+.submit-btn{
+  @apply px-4 py-2 bg-orange-500 hover:bg-orange-300 text-white rounded-3xl shadow duration-200
 }
 </style>

@@ -22,6 +22,7 @@
     "aws-sdk": "^2.1445.0",
     "flowbite": "^1.6.6",
     "html-to-image": "^1.11.11",
+    "toastify-js": "^1.12.0",
     "vue-toastify": "^2.0.0-alpha.1",
     "vue3-toastify": "^0.1.11"
   }

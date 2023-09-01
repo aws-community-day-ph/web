@@ -41,6 +41,7 @@ const processing = ref(false);
 const success = ref(false);
 const error = ref(false);
 const selectedFiles = ref([]);
+let uploadedImageCount = 0;
 
 const closeUploadPopup = () => {
   showPopup.value = false;
@@ -49,6 +50,11 @@ const closeUploadPopup = () => {
 const handleFileChange = (event) => {
   selectedFiles.value = Array.from(event.target.files).slice(0, 3);
 };
+
+const props = defineProps({
+  selectedRequestID: String
+});
+
 
 const uploadImage = async (file) => {
   const uploadOptions = {
@@ -59,16 +65,33 @@ const uploadImage = async (file) => {
     },
   };
 
-  return Storage.put(file.name, file, uploadOptions)
-  .then((uploadResult) => {
-    console.log(`Successfully uploaded ${uploadResult.key}`);
-    return uploadResult;
-  })
-  .catch((error) => {
-    console.log('Unexpected error while uploading', error);
-    throw error;
-  });
-}
+  try{
+    const folderName = props.selectedRequestID;
+
+    const key = `${folderName}/${file.name}`;
+
+    await Storage.put(key, file, uploadOptions);
+    success.value = true;
+    
+    uploadedImageCount++;
+
+    if(uploadedImageCount === 3){
+      uploadedImageCount = 0;
+    }
+  }
+  catch(err){
+    console.error('Error uploading file: ', err);
+    error.value = true;
+  }
+  finally{
+    selectedFiles.value [true];
+    processing.value = false;
+  }
+};
+
+onMounted(() =>{
+  uploadedImageCount = 0;
+});
 
 const uploadMultiplePhotos = async () => {
   if (selectedFiles.value.length === 0) {
@@ -79,25 +102,36 @@ const uploadMultiplePhotos = async () => {
   showPopup.value = true;
   processing.value = true;
   const filesToUpload = selectedFiles.value;
+  let hasError = false;
 
   try {
     for (const file of filesToUpload) {
       console.log(`Uploading file: ${file.name}`);
-      await uploadImage(file);
+      try {
+        await uploadImage(file);
+      } catch (error) {
+        console.error(`Failed to upload ${file.name}:`, error);
+        hasError = true;
+      }
     }
 
     processing.value = false;
-    success.value = true;
 
-    setTimeout(() => {
-      showPopup.value = false;
-    }, 5000);
+    if (hasError) {
+      error.value = true;
+    } else {
+      success.value = true;
+      setTimeout(() => {
+        showPopup.value = false;
+      }, 5000);
+    }
   } catch (error) {
     processing.value = false;
     error.value = true;
   }
 };
 </script>
+
 
 <style lang="postcss" scoped>
 

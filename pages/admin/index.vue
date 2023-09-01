@@ -58,7 +58,7 @@
           :selectedRequestID="selectedRequestID"
           :emails="getEmailsForRequest(selectedRequestID)"
         ></EmailList>
-        <BrowseUpload />
+        <BrowseUpload :selectedRequestID="selectedRequestID" />
       </div>
     </div>
   </div>
