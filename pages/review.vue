@@ -23,6 +23,7 @@
             to ensure their accuracy and validity.
           </p>
           <div class="text-center mb-4">
+            <input v-model="point_person_name" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-3xl mb-4" :placeholder="'Point Person Name'" required/>
             <div
               v-for="(email, index) in savedEmails"
               :key="index"
@@ -92,14 +93,22 @@ export default {
     const submitted = ref(false);
     const queueNumber = ref(0);
     const savedEmails = ref(JSON.parse(localStorage.getItem("savedEmails")));
+    const point_person_name = ref("");
 
     console.log(savedEmails.value);
+    console.log(point_person_name.value)
 
     async function submit() {
+      if(point_person_name.value.trim() === ""){
+        $toast.error("Point Person Name is Required!");
+        return;
+      }
+
       submitted.value = false;
       const payload = {
+        point_person: point_person_name.value,
         emails: savedEmails.value,
-        img_path: "",
+        folder_name: "",
         status: "pending",
       };
 
@@ -111,8 +120,8 @@ export default {
         });
         reset()
       });
-     
     }
+
     function reset() {
      editedEmails.value = []
      localStorage.removeItem("savedEmails")
@@ -130,6 +139,7 @@ export default {
       submit,
       newRequest,
       savedEmails,
+      point_person_name,
     
     };
   },

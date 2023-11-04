@@ -23,7 +23,7 @@
           <div
             v-for="(email, index) in emails"
             :key="index"
-            class="email-container"
+            class="email-container flex justify-center"
           >
             <input
               v-model="email.value"
@@ -31,6 +31,7 @@
               class="w-full px-3 py-2 border border-gray-300 rounded-3xl mb-4"
               :placeholder="'Your email address '"
             />
+            <button @click="deleteEmail(index)"><img src="../assets/icons/x.svg" class=" -mt-4 ml-1"/></button>
           </div>
           <div id="error-container" class="text-sm text-red-500 mb-2">
             {{ error }}
@@ -73,6 +74,14 @@ export default {
       emails.value.push({ value: "" });
     }
 
+    function deleteEmail(index){
+      if (emails.value.length === 1){
+        return;
+      }
+
+      emails.value.splice(index,1);
+    }
+
     function validateForm() {
       const atLeastOneEmailFilled = emails.value.some(
         (email) => email.value.trim() !== ""
@@ -96,6 +105,7 @@ export default {
       error,
       addEmailField,
       validateForm,
+      deleteEmail,
     };
   },
 };
