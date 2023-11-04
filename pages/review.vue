@@ -4,7 +4,7 @@
       <!-- Left column container with background -->
       <div class="w-full lg:w-1/2">
         <img
-          src="/img/AWS-bg.jpeg"
+          src="../img/AWS-bg.jpeg"
           class="object-cover w-full h-full"
           alt="background image"
         />
