@@ -105,12 +105,14 @@ export default {
       }
 
       submitted.value = false;
+
+      const filteredEmails = savedEmails.value.filter(email => email.trim() !== " ");
+
       const payload = {
-        point_person: point_person_name.value,
-        emails: savedEmails.value,
-        folder_name: "",
-        status: "pending",
+        pointPerson: point_person_name.value,
+        emails: filteredEmails,
       };
+      console.log("Payload: ", payload)
 
       await $api.photobooth.create(payload).then((res) => {
         submitted.value = true;

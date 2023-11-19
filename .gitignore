@@ -21,3 +21,6 @@ logs
 !.env.example
 
 /src/aws-exports.js
+
+.env
+.venv/

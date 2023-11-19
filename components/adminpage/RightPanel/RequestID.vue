@@ -1,7 +1,6 @@
 <template>
     <div class="reqID">
-        <h3>Request ID: </h3>
-        <h3>{{ requestID }}</h3>
+        <h3>Request ID: {{ requestID }}</h3>
     </div>
 </template>
 

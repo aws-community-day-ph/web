@@ -52,8 +52,8 @@
       },
 
       methods: {
-        handleRequestClick(requestID, index){
-          this.$emit('request-clicked', requestID, index);
+        handleRequestClick(request_id, index){
+          this.$emit('request-clicked', request_id, index);
         }
       }
   }

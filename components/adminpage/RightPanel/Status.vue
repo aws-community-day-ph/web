@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <h3 >Status: </h3>
+        <h3>Status: </h3>
         <h3 class="statcolor" :style="getStatusColor">{{ status }}</h3>
     </div>
 </template>

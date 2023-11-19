@@ -33,6 +33,7 @@ import { ref } from 'vue';
 import { Amplify, Storage } from 'aws-amplify';
 import UploadPopup from "../RightPanel/UploadPopup.vue";
 import { awsConfig } from '../../../src/aws-exports.js'; 
+import { templatePictures, sendEmail } from '../../../api/photobooth.js'
 
 Amplify.configure(awsConfig);
 
@@ -58,7 +59,8 @@ const props = defineProps({
 
 const uploadImage = async (file) => {
   const uploadOptions = {
-    level: 'public',
+    level: "public",
+    customPrefix: {public: "raw_photos/"},
     resumable: true,
     progressCallback: (progress) => {
       console.log(`Uploaded ${progress.loaded}/${progress.total}`);
@@ -67,8 +69,9 @@ const uploadImage = async (file) => {
 
   try{
     const folderName = props.selectedRequestID;
+    const folderNumber = folderName.split('-').pop();
 
-    const key = `${folderName}/${file.name}`;
+    const key = `${folderNumber}/${file.name}`;
 
     await Storage.put(key, file, uploadOptions);
     success.value = true;
@@ -77,6 +80,8 @@ const uploadImage = async (file) => {
 
     if(uploadedImageCount === 3){
       uploadedImageCount = 0;
+      handleTemplatePictures(folderNumber);
+      handleEmailSending(folderName);
     }
   }
   catch(err){
@@ -114,7 +119,7 @@ const uploadMultiplePhotos = async () => {
         hasError = true;
       }
     }
-
+    
     processing.value = false;
 
     if (hasError) {
@@ -129,6 +134,28 @@ const uploadMultiplePhotos = async () => {
     processing.value = false;
     error.value = true;
   }
+};
+
+const handleTemplatePictures = async (folderNumber) => {
+    try {
+        const response = await templatePictures({folderName: folderNumber});
+
+        console.log('Response from templatePictures:', response);
+
+    } catch (error) {
+        console.error('Error calling templatePictures:', error);
+    }
+};
+
+const handleEmailSending = async (requestID) => {
+    try {
+        const response = await sendEmail({requestId: requestID});
+
+        console.log('Response from Sending Email', response);
+
+    } catch (error) {
+        console.error('Error calling Sending Email:', error);
+    }
 };
 </script>
 

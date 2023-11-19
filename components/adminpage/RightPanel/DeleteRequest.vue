@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <button
-      @click="DeleteRequest"
+      @click="handleDeleteRequest"
       class="button"
     >
       <img src="@/assets/icons/trash.svg" class="trash" />
@@ -11,17 +11,53 @@
 </template>
 
 <script>
-    export default {
+import { ref } from 'vue';
+import { deleteRequest as apiDeleteRequest } from '../../../api/photobooth.js';
+ const { $toast, $api } = useNuxtApp();
 
-      methods: {
-        DeleteRequest(){
-          this.request.status = 'cancelled';
-          // No code yet
+export default {
+  props: {
+    selectedRequestID: {
+      type: String,
+      required: true,
+    },
+  },
+
+  setup(props) {
+    const selectedRequestID = ref(props.selectedRequestID);
+
+    const payload = {
+      requestId: selectedRequestID.value,
+    };
+
+    console.log("Deleting Request ID:", payload);
+    console.log("RequestId: ", selectedRequestID.value);
+
+    const handleDeleteRequest = async () => {
+      try {
+        const response = await apiDeleteRequest(payload);
+
+        if (response.data) {
+          const responseData = response.data.value;
+          $toast.success(`Successfully Deleted Request ID ${payload.requestID}`);
+          console.log('Request deleted successfully:', responseData);
+        } else {
+          $toast.error('Error deleting request. Data not available in the response.');
         }
+
+      } catch (error) {
+        console.error('Error deleting request:', error);
+        $toast.error('Error deleting request');
       }
-        
-    }
+    };
+
+    return {
+      handleDeleteRequest,
+    };
+  }
+}
 </script>
+
 
 <style lang="postcss" scoped>
   .wrapper{

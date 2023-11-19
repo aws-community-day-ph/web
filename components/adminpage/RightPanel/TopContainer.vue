@@ -9,9 +9,6 @@
               <h3 class="section-title"> Emails </h3>
             </div>
           </div>
-          <div class="delete-section">
-            <DeleteRequest />
-          </div>
         </div>
 </template>
 
