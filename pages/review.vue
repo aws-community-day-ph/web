@@ -133,7 +133,6 @@ export default {
       router.push("/")
     }
 
-    // Return the data and methods you want to expose to the template
     return {
       editedEmails,
       submitted,

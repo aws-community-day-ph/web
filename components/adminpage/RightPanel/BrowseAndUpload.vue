@@ -1,39 +1,39 @@
 <template>
-  <div class="upload-container">
-    <div class="upload-section">
-      <h3 class="upload-title">Upload your images:</h3>
-      <div class="upload-form">
-        <img src="@/assets/icons/image.svg" class="upload-icon" />
-        <h3 class="upload-instructions">Choose Images to Upload</h3>
-        <input
-          type="file"
-          id="imageUpload"
-          name="imageUpload"
-          class="imageUpload"
-          multiple
-          @change="handleFileChange"
-        />
-      </div>
+    <div class="upload-container">
+        <div class="upload-section">
+            <h3 class="upload-title">Upload your images:</h3>
+            <div class="upload-form">
+                <img src="@/assets/icons/image.svg" class="upload-icon" />
+                <h3 class="upload-instructions">Choose Images to Upload</h3>
+                <input
+                    type="file"
+                    id="imageUpload"
+                    name="imageUpload"
+                    class="imageUpload"
+                    multiple
+                    @change="handleFileChange"
+                />
+            </div>
+        </div>
+        <button @click="uploadMultiplePhotos" class="upload-button">
+            UPLOAD
+        </button>
+        <upload-popup
+            :show="showPopup"
+            :processing="processing"
+            :success="success"
+            :error="error"
+            @close="closeUploadPopup"
+        ></upload-popup>
     </div>
-    <button @click="uploadMultiplePhotos" class="upload-button">
-      UPLOAD
-    </button>
-    <upload-popup
-      :show="showPopup"
-      :processing="processing"
-      :success="success"
-      :error="error"
-      @close="closeUploadPopup"
-    ></upload-popup>
-  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { Amplify, Storage } from 'aws-amplify';
+import { ref } from "vue";
+import { Amplify, Storage } from "aws-amplify";
 import UploadPopup from "../RightPanel/UploadPopup.vue";
-import { awsConfig } from '../../../src/aws-exports.js'; 
-import { templatePictures, sendEmail } from '../../../api/photobooth.js'
+import { awsConfig } from "../../../src/aws-exports.js";
+import { templatePictures, sendEmail } from "../../../api/photobooth.js";
 
 Amplify.configure(awsConfig);
 
@@ -45,148 +45,152 @@ const selectedFiles = ref([]);
 let uploadedImageCount = 0;
 
 const closeUploadPopup = () => {
-  showPopup.value = false;
+    showPopup.value = false;
 };
 
 const handleFileChange = (event) => {
-  selectedFiles.value = Array.from(event.target.files).slice(0, 3);
+    selectedFiles.value = Array.from(event.target.files).slice(0, 3);
 };
 
 const props = defineProps({
-  selectedRequestID: String
+    selectedRequestID: String,
 });
 
-
 const uploadImage = async (file) => {
-  const uploadOptions = {
-    level: "public",
-    customPrefix: {public: "raw_photos/"},
-    resumable: true,
-    progressCallback: (progress) => {
-      console.log(`Uploaded ${progress.loaded}/${progress.total}`);
-    },
-  };
+    const uploadOptions = {
+        level: "public",
+        customPrefix: { public: "raw_photos/" },
+        resumable: true,
+        progressCallback: (progress) => {
+            console.log(`Uploaded ${progress.loaded}/${progress.total}`);
+        },
+    };
 
-  try{
-    const folderName = props.selectedRequestID;
-    const folderNumber = folderName.split('-').pop();
+    try {
+        const folderName = props.selectedRequestID;
+        const folderNumber = folderName.split("-").pop();
 
-    const key = `${folderNumber}/${file.name}`;
+        const key = `${folderNumber}/${file.name}`;
 
-    await Storage.put(key, file, uploadOptions);
-    success.value = true;
-    
-    uploadedImageCount++;
+        await Storage.put(key, file, uploadOptions);
+        success.value = true;
 
-    if(uploadedImageCount === 3){
-      uploadedImageCount = 0;
-      handleTemplatePictures(folderNumber);
-      handleEmailSending(folderName);
+        uploadedImageCount++;
+
+        if (uploadedImageCount === 3) {
+            uploadedImageCount = 0;
+
+            handleTemplatePictures(folderName, folderNumber);
+            setTimeout(() => {
+            }, 3000);
+            
+            setTimeout(() => {
+                handleEmailSending(folderName);
+            }, 10000)
+        }
+    } catch (err) {
+        console.error("Error uploading file: ", err);
+        error.value = true;
+    } finally {
+        selectedFiles.value[true];
+        processing.value = false;
     }
-  }
-  catch(err){
-    console.error('Error uploading file: ', err);
-    error.value = true;
-  }
-  finally{
-    selectedFiles.value [true];
-    processing.value = false;
-  }
 };
 
-onMounted(() =>{
-  uploadedImageCount = 0;
+onMounted(() => {
+    uploadedImageCount = 0;
 });
 
 const uploadMultiplePhotos = async () => {
-  if (selectedFiles.value.length === 0) {
-    window.alert("Please choose files to upload");
-    return;
-  }
-
-  showPopup.value = true;
-  processing.value = true;
-  const filesToUpload = selectedFiles.value;
-  let hasError = false;
-
-  try {
-    for (const file of filesToUpload) {
-      console.log(`Uploading file: ${file.name}`);
-      try {
-        await uploadImage(file);
-      } catch (error) {
-        console.error(`Failed to upload ${file.name}:`, error);
-        hasError = true;
-      }
+    if (selectedFiles.value.length === 0) {
+        window.alert("Please choose files to upload");
+        return;
     }
-    
-    processing.value = false;
 
-    if (hasError) {
-      error.value = true;
-    } else {
-      success.value = true;
-      setTimeout(() => {
-        showPopup.value = false;
-      }, 5000);
+    showPopup.value = true;
+    processing.value = true;
+    const filesToUpload = selectedFiles.value;
+    let hasError = false;
+
+    try {
+        for (const file of filesToUpload) {
+            console.log(`Uploading file: ${file.name}`);
+            try {
+                await uploadImage(file);
+            } catch (error) {
+                console.error(`Failed to upload ${file.name}:`, error);
+                hasError = true;
+            }
+        }
+
+        processing.value = false;
+
+        if (hasError) {
+            error.value = true;
+        } else {
+            success.value = true;
+            setTimeout(() => {
+                showPopup.value = false;
+            }, 5000);
+        }
+    } catch (error) {
+        processing.value = false;
+        error.value = true;
     }
-  } catch (error) {
-    processing.value = false;
-    error.value = true;
-  }
 };
 
-const handleTemplatePictures = async (folderNumber) => {
+const handleTemplatePictures = async (requestID, folderName) => {
     try {
-        const response = await templatePictures({folderName: folderNumber});
+        const data = {
+            requestId: requestID,
+            folderName: folderName,
+        };
+        console.log(data);
+        const response = await templatePictures(data);
 
-        console.log('Response from templatePictures:', response);
-
+        console.log("Response from templatePictures:", response);
     } catch (error) {
-        console.error('Error calling templatePictures:', error);
+        console.error("Error calling templatePictures:", error);
     }
 };
 
 const handleEmailSending = async (requestID) => {
     try {
-        const response = await sendEmail({requestId: requestID});
+        const response = await sendEmail({ requestId: requestID });
 
-        console.log('Response from Sending Email', response);
-
+        console.log("Response from Sending Email", response);
     } catch (error) {
-        console.error('Error calling Sending Email:', error);
+        console.error("Error calling Sending Email:", error);
     }
 };
 </script>
 
-
 <style lang="postcss" scoped>
+.upload-container {
+    @apply w-[1030px] h-[430px] flex flex-col items-center justify-center bg-white rounded-lg py-2 mt-6 drop-shadow-xl;
+}
 
-  .upload-container{
-    @apply w-[1030px] h-[430px] flex flex-col items-center justify-center bg-white rounded-lg py-2 mt-6 drop-shadow-xl
-  }
+.upload-section {
+    @apply w-[530px] h-[320px] flex flex-col bg-[#37475A] rounded-lg py-2 mt-8 -mb-2;
+}
+.upload-title {
+    @apply font-semibold text-white text-xl justify-normal ml-7 mt-4;
+}
 
-  .upload-section{
-    @apply w-[530px] h-[320px] flex flex-col bg-[#37475A] rounded-lg py-2 mt-8 -mb-2
-  }
-  .upload-title{
-    @apply font-semibold text-white text-xl justify-normal ml-7 mt-4
-  }
+.upload-instructions {
+    @apply mb-2 mt-2;
+}
 
-  .upload-instructions{ 
-    @apply mb-2 mt-2
-  }
+.upload-form {
+    @apply w-[490px] h-[280px] flex flex-col items-center justify-center bg-white py-1 mt-6 ml-5;
+}
 
-  .upload-form{
-    @apply w-[490px] h-[280px] flex flex-col items-center justify-center bg-white py-1 mt-6 ml-5
-  }
+.imageUpload {
+    @apply mt-4 ml-24;
+}
 
-  .imageUpload{
-    @apply mt-4 ml-24
-  }
-
-  .upload-button{
+.upload-button {
     @apply bg-[#FEBD69] w-[145px] h-[50px] text-lg font-semibold rounded-lg text-[#232F3E] flex items-center justify-center hover:bg-[#FF9900] focus:bg-[#FEBD69] duration-300 mt-8 mb-8
-    transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110
-  }
+    transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110;
+}
 </style>

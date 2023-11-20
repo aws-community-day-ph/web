@@ -11,9 +11,10 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import { deleteRequest as apiDeleteRequest } from '../../../api/photobooth.js';
- const { $toast, $api } = useNuxtApp();
+import { ref, onMounted } from 'vue';
+import { deleteRequestById } from '../../../api/photobooth.js'
+
+const {$toast} = useNuxtApp();
 
 export default {
   props: {
@@ -25,37 +26,38 @@ export default {
 
   setup(props) {
     const selectedRequestID = ref(props.selectedRequestID);
-
-    const payload = {
-      requestId: selectedRequestID.value,
+    console.log('To delete request ID:', selectedRequestID.value);
+    const data = {
+      requestId: selectedRequestID
     };
 
-    console.log("Deleting Request ID:", payload);
-    console.log("RequestId: ", selectedRequestID.value);
 
     const handleDeleteRequest = async () => {
       try {
-        const response = await apiDeleteRequest(payload);
+        const response = await deleteRequestById(data);
+
+        console.log('boom', data)
 
         if (response.data) {
           const responseData = response.data.value;
-          $toast.success(`Successfully Deleted Request ID ${payload.requestID}`);
           console.log('Request deleted successfully:', responseData);
         } else {
-          $toast.error('Error deleting request. Data not available in the response.');
+          console.error("FAILED");
         }
-
       } catch (error) {
         console.error('Error deleting request:', error);
-        $toast.error('Error deleting request');
       }
     };
+
+    onMounted(() => {
+      console.log('Component mounted');
+    });
 
     return {
       handleDeleteRequest,
     };
-  }
-}
+  },
+};
 </script>
 
 

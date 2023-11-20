@@ -20,7 +20,7 @@
         computed: {
             getStatusColor(){
                 switch(this.status){
-                    case 'completed':
+                    case 'templated':
                         return {color: 'green'};
                     case 'cancelled':
                         return {color: 'red'};

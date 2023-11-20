@@ -67,7 +67,6 @@ export default () => ({
     },
 });
 
-
 export const templatePictures = async (data) => {
     const config = useRuntimeConfig();
     
@@ -117,18 +116,29 @@ export const sendEmail = async (data) => {
         throw error;
     }
 };
-export const deleteRequest = (data) => {
+
+export const deleteRequestById = async (selectedRequestID) => {
     const config = useRuntimeConfig();
-    return useFetch(`/delete_request`, {
-        method: "DELETE",
-        body: data,
-        mode: "no-cors",
-        headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-        },
-        ...interceptors(),
-        baseURL: config.public.photobooth_api_url,
-    });
+    try {
+        const response = await useFetch(`/delete_request`, {
+            method: "DELETE",
+            body: { requestId: selectedRequestID },
+            mode: "no-cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+            },
+            ...interceptors(),
+            baseURL: config.public.photobooth_api_url,
+        });
+        console.log("ID",  selectedRequestID);
+        console.log("Delete Request", response);
+
+        return response;
+    } catch (error) {
+        console.error("Error in deleteRequest", error);
+        throw error;
+    }
 };
+
 
