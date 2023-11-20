@@ -122,8 +122,8 @@ export const deleteRequestById = async (selectedRequestID) => {
     try {
         const response = await useFetch(`/delete_request`, {
             method: "DELETE",
-            body: { requestId: selectedRequestID },
-            mode: "no-cors",
+            body: selectedRequestID,
+            mode: "cors",
             headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*",

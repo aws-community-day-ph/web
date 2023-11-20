@@ -22,7 +22,7 @@
                 switch(this.status){
                     case 'templated':
                         return {color: 'green'};
-                    case 'cancelled':
+                    case 'canceled':
                         return {color: 'red'};
                     case 'pending':
                         return {color: 'orange'};
