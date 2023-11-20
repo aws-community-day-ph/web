@@ -26,6 +26,8 @@
                         return {color: 'red'};
                     case 'pending':
                         return {color: 'orange'};
+                    case 'sent':
+                        return {color: 'blue'}
                 }
             }
         }

@@ -124,9 +124,9 @@ export const deleteRequestById = async (selectedRequestID) => {
             method: "DELETE",
             body: selectedRequestID,
             mode: "cors",
+            credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
             },
             ...interceptors(),
             baseURL: config.public.photobooth_api_url,
