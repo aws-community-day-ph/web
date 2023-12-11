@@ -37,8 +37,8 @@ import * as htmlToImage from "html-to-image";
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
 export default {
   setup() {
-    const PHOTO_TEMPLATE_WIDTH = ref(1080);
-    const PHOTO_TEMPLATE_HEIGHT = ref(700);
+    const PHOTO_TEMPLATE_WIDTH = ref(1530);
+    const PHOTO_TEMPLATE_HEIGHT = ref(1024);
     const UPLOADED_IMAGE_WIDTH = ref(840);
     const UPLOADED_IMAGE_HEIGHT = ref(575);
     const photoTemplateRef = ref(null);
@@ -109,7 +109,7 @@ export default {
         .then(function (dataUrl) {
           const link = document.createElement("a");
           link.href = dataUrl;
-          link.download = "my-node.png";
+          link.download = "templated_img.png";
           link.click();
         })
         .catch(function (error) {
@@ -143,7 +143,7 @@ export default {
 }
 
 .photo-template {
-  @apply relative flex items-center justify-center overflow-hidden mt-3;
+  @apply relative flex items-center justify-center overflow-hidden;
 }
 
 .upload-placeholder {
@@ -155,8 +155,8 @@ export default {
 }
 
 .uploaded-image-container {
-  @apply -mt-[81px];
-  @apply w-[867px] h-[589px];
+  @apply -mt-[150px];
+  @apply w-[1230px] h-[835px];
 }
 
 .uploaded-image {

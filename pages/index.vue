@@ -4,7 +4,7 @@
       <!-- Left column container with background -->
       <div class="w-full lg:w-1/2">
         <img
-          src="/img/AWS-bg.jpeg"
+          src="../img/AWS-bg.jpeg"
           class="object-cover w-full h-full"
           alt="background image"
         />
@@ -23,14 +23,16 @@
           <div
             v-for="(email, index) in emails"
             :key="index"
-            class="email-container"
+            class="email-container flex justify-center"
           >
             <input
               v-model="email.value"
               type="email"
               class="w-full px-3 py-2 border border-gray-300 rounded-3xl mb-4"
               :placeholder="'Your email address '"
+              required
             />
+            <button @click="deleteEmail(index)"><img src="../assets/icons/x.svg" class=" -mt-4 ml-1"/></button>
           </div>
           <div id="error-container" class="text-sm text-red-500 mb-2">
             {{ error }}
@@ -46,7 +48,7 @@
           </div>
           <div class="mt-3 text-center">
             <button
-              class="px-4 py-2 bg-orange-500 hover:bg-orange-300 text-white rounded-3xl shadow"
+              class="submit-btn"
               type="submit"
             >
               Submit
@@ -64,8 +66,7 @@ import { ref } from 'vue';
 
 export default {
 
-  async setup() {
-    const { $api } = useNuxtApp();
+  setup() {
     const router = useRouter();
     const emails = ref([{ value: "" }]);
     const error = ref("");
@@ -74,9 +75,13 @@ export default {
       emails.value.push({ value: "" });
     }
 
-    await $api.photobooth.fetchRequets().then(res =>{
-        console.log(res)
-    })
+    function deleteEmail(index){
+      if (emails.value.length === 1){
+        return;
+      }
+
+      emails.value.splice(index,1);
+    }
 
     function validateForm() {
       const atLeastOneEmailFilled = emails.value.some(
@@ -101,18 +106,13 @@ export default {
       error,
       addEmailField,
       validateForm,
+      deleteEmail,
     };
   },
 };
 </script>
 
-<style>
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
-
+<style lang="postcss" scoped>
 .text-shadow {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
 }
@@ -125,5 +125,9 @@ body {
   .flex-col {
     flex-direction: column !important;
   }
+}
+
+.submit-btn{
+  @apply px-4 py-2 bg-orange-500 hover:bg-orange-300 text-white rounded-3xl shadow duration-200
 }
 </style>
